@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use InstagramScraper\Instagram;
 use Psr\Http\Message\ResponseInterface;
@@ -86,7 +87,7 @@ class InstagramController extends Controller
     {
 
         $validasi = Validator::make($req->all(), [
-            'username' => 'required'
+            'username' => 'required',
         ]);
 
         if ($validasi->fails()) {
@@ -122,7 +123,7 @@ class InstagramController extends Controller
     function checkNotFollback(Request $req)
     {
         $validasi = Validator::make($req->all(), [
-            'username' => 'required'
+            'username' => 'required',
         ]);
 
         if ($validasi->fails()) {
@@ -133,6 +134,12 @@ class InstagramController extends Controller
         }
 
         $totalCompare = request()->total ? request()->total : 20;
+
+        $inclueVerified = request()->include_verified
+            ? (request()->include_verified === 'y' ? true
+                : (request()->include_verified === 'n' ? false
+                    : (request()->include_verified == 'n')))
+            : true;
 
         $followers = $this->getFollowers($this->username, $totalCompare);
         $followings = $this->getFollowings($this->username, $totalCompare);
@@ -152,12 +159,28 @@ class InstagramController extends Controller
             }
         }
 
+        $dataNotFollback = null;
+
+
+        if ($inclueVerified === true) {
+            $dataNotFollback = collect($notFollback)
+                ->filter(fn ($nf) => $nf['is_verified'] || !$nf['is_verified'])
+                ->values();
+            $this->consoleLog('MASUK KE VERIF TRUE');
+        } else if ($inclueVerified === false) {
+            $dataNotFollback = collect($notFollback)
+                ->filter(fn ($nf) => !$nf['is_verified'])
+                ->values();
+            $this->consoleLog('MASUK KE VERIF FALSE');
+        }
+
+        $notFollback = $dataNotFollback;
+
+        Storage::put('data_not_follback.json', json_encode($notFollback));
+
         return response()->json([
             'not_follback_users' => $notFollback
         ]);
-        // $followingIds = collect($followings)->map(fn() => [
-        //     'id'
-        // ]);
     }
 
     function getHighlights()
