@@ -25,5 +25,7 @@ Route::controller(InstagramController::class)->group(function () {
         Route::get('/profile-picture', 'getProfilePicture');
         Route::get('/get-ff-account', 'followersAndFollowings');
         Route::get('/get-highlights', 'getHighlights');
+        Route::get('/follow-from-followers-user', 'followFromFollowersUser');
+        Route::get('/check-not-follback', 'checkNotFollback');
     });
 });
