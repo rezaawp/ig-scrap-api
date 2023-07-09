@@ -141,8 +141,12 @@ class InstagramController extends Controller
                     : (request()->include_verified == 'n')))
             : true;
 
+        $this->consoleLog('START GET');
+
         $followers = $this->getFollowers($this->username, $totalCompare);
         $followings = $this->getFollowings($this->username, $totalCompare);
+
+        $this->consoleLog('END GET');
 
         $notFollback = [];
         foreach ($followings as $following) {
@@ -166,17 +170,21 @@ class InstagramController extends Controller
             $dataNotFollback = collect($notFollback)
                 ->filter(fn ($nf) => $nf['is_verified'] || !$nf['is_verified'])
                 ->values();
-            $this->consoleLog('MASUK KE VERIF TRUE');
         } else if ($inclueVerified === false) {
             $dataNotFollback = collect($notFollback)
                 ->filter(fn ($nf) => !$nf['is_verified'])
                 ->values();
-            $this->consoleLog('MASUK KE VERIF FALSE');
         }
 
         $notFollback = $dataNotFollback;
 
-        Storage::put('data_not_follback.json', json_encode($notFollback));
+        $resultText = "LIST USERS NOT FOLLBACK YOUR ACCOUNT\n\n";
+
+        foreach ($notFollback as $nf) {
+            $resultText .= "Username : {$nf['username']}\nFullname : {$nf['full_name']}\n------------------------------\n";
+        }
+
+        Storage::put('data_not_follback.txt', $resultText);
 
         return response()->json([
             'not_follback_users' => $notFollback
