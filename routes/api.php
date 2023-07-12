@@ -19,6 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('tes', function () {
+    return response()->json([
+        'tes' => 'hello world'
+    ]);
+});
+
 Route::controller(InstagramController::class)->group(function () {
     Route::prefix('ig')->group(function () {
         Route::get('/get-media-photo', 'getMediaPhotoByUrl');
