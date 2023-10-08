@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Masyarakat;
+use App\Models\Petugas;
+
 return [
 
     /*
@@ -40,6 +43,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'masyarkat' => [
+            'driver' => 'session',
+            'provider' => 'masyarakatProvider',
+        ],
+        'petugas' => [
+            'driver' => 'session',
+            'provider' => 'petugasProvider',
+        ],
     ],
 
     /*
@@ -64,6 +75,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'masyarakatProvider' => [
+            'driver' => 'eloquent',
+            'model' => Masyarakat::class
+        ],
+        'petugasProvider' => [
+            'driver' => 'eloquent',
+            'model' => Petugas::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
