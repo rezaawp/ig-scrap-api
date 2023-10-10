@@ -19,8 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::middleware('guest:masyarakat,petugas')->group(function () {
+Route::controller(AuthController::class)->group(function () { // grouping controller
+    Route::middleware('guest:masyarakat,petugas')->group(function () { // middleware guest
         Route::get('/login-masyarakat', 'halamanLoginMasyarkat')->name('halamanlogin.masyarakat');
         Route::post('/login-masyarakat', 'prosesLoginMasyarakat')->name('proses.login.masyarakat');
         Route::get('/login-petugas', 'halamanLoginPetugas')->name('halamanlogin.petugas');
