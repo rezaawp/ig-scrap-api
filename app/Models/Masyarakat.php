@@ -11,4 +11,9 @@ class Masyarakat extends Authenticatable
     use HasFactory;
 
     protected $table = 'masyarakat';
+
+    protected $primaryKey = 'nik';
+
+    protected $keyType = 'string';
+
 }

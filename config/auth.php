@@ -43,7 +43,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'masyarkat' => [
+        'masyarakat' => [
             'driver' => 'session',
             'provider' => 'masyarakatProvider',
         ],

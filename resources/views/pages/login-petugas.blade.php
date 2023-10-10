@@ -3,15 +3,13 @@
 @section('title', 'Halaman Login')
 
 @section('content')
-    <form method="POST" action="{{ route('proses.login.masyarakat') }}">
-
-        <h2 class="text-center">Halaman Login Masyarakat</h2>
-
+    <form method="POST" action="{{ route('proses.login.petugas') }}">
         @csrf
+        <h2 class="text-center">Halaman Login Petugas</h2>
+
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Username</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                name="username">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
