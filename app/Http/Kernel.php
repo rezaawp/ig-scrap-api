@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\CobaMiddleware;
+use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\RolePetugasMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -55,6 +57,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareAliases = [
         'coba' => CobaMiddleware::class,
+        'role.petugas' => RolePetugasMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,

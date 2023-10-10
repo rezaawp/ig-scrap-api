@@ -23,7 +23,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::middleware('guest:masyarakat,petugas')->group(function () {
         Route::get('/login-masyarakat', 'halamanLoginMasyarkat')->name('halamanlogin.masyarakat');
         Route::post('/login-masyarakat', 'prosesLoginMasyarakat')->name('proses.login.masyarakat');
-
         Route::get('/login-petugas', 'halamanLoginPetugas')->name('halamanlogin.petugas');
         Route::post('/login-petugas', 'prosesLoginPetugas')->name('proses.login.petugas');
     });
@@ -31,8 +30,14 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/logout', 'logout')->middleware('auth:masyarakat,petugas')->name('logout');
 });
 
+Route::prefix('/petugas')->group(function () {
+    Route::get('/dashboard', function () {
+        return "ini dashboard petugas";
+    })->middleware(['role.petugas:petugas']); // middleware ini sudah termasuk mendeteksi jika tidak login
+});
+
 Route::get('dash', function () {
-    return "ini adalah dash";
+    return view('pages.dashboard');
 })->middleware('auth:petugas,masyarakat');
 
 Route::get('/users', function () {
