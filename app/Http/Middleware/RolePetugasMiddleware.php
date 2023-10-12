@@ -36,9 +36,10 @@ class RolePetugasMiddleware
                 }
             }
 
+            // baris kode 40 sampai 44 : jika user login sebagai petugas
             if ($user->user()->level !== $role) { // jika user petugas memaksa masuk ke fitur admin dengan role petugas
                 return abort(403);
-            } else { //
+            } else { // jika user petugas role nya sesuai
                 return $next($request);
             }
         } else {

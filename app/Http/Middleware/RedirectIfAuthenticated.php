@@ -17,7 +17,12 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
+        $guards = empty($guards) ? [null] : $guards; // jika parameter $guards nya kosong, isi dengan 1 value array yang value nya adalah null
+
+        // jika parameter $guards tidak di isi, maka guard nya akan terisikan dengan guard default
+        // foreach ($guards as $guard) {
+        //     dd(Auth::guard($guard));
+        // }
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
